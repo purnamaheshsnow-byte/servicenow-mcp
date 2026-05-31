@@ -276,3 +276,10 @@ async def root():
     return {
         "status": "running"
     }
+
+print("\n=== ROUTES ===")
+
+for route in app.routes:
+    print(route.path)
+
+print("==============\n")
