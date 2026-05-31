@@ -2,18 +2,6 @@ from mcp.server.fastmcp import FastMCP
 from sn_client import ServiceNowClient
 from fastapi import FastAPI
 
-app = FastAPI()
-# Create MCP Server
-mcp = FastMCP("ServiceNow MCP")
-mcp_app = mcp.streamable_http_app()
-
-app = FastAPI(
-    title="ServiceNow MCP",
-    lifespan=mcp_app.router.lifespan_context
-)
-
-app.mount("/mcp", mcp_app, name="mcp")
-
 # Initialize ServiceNow Client
 snow = ServiceNowClient()
 
@@ -108,6 +96,17 @@ async def get_change_requests():
         for change in changes
     ]
 
+app = FastAPI()
+# Create MCP Server
+mcp = FastMCP("ServiceNow MCP")
+mcp_app = mcp.streamable_http_app()
+
+app = FastAPI(
+    title="ServiceNow MCP",
+    lifespan=mcp_app.router.lifespan_context
+)
+
+app.mount("/mcp", mcp_app, name="mcp")
 
 @app.get("/health")
 async def health_check():
@@ -151,5 +150,5 @@ if __name__ == "__main__":
     mcp.run(
         transport="http",
         host="0.0.0.0",
-        port=...
+        port=int(os.environ.get("PORT", 8000))
     )
