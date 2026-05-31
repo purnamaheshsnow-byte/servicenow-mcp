@@ -5,6 +5,14 @@ from fastapi import FastAPI
 app = FastAPI()
 # Create MCP Server
 mcp = FastMCP("ServiceNow MCP")
+mcp_app = mcp.streamable_http_app()
+
+app = FastAPI(
+    title="ServiceNow MCP",
+    lifespan=mcp_app.router.lifespan_context
+)
+
+app.mount("/mcp", mcp_app, name="mcp")
 
 # Initialize ServiceNow Client
 snow = ServiceNowClient()
