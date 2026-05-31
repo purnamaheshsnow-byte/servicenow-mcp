@@ -1,6 +1,8 @@
 from mcp.server.fastmcp import FastMCP
 from sn_client import ServiceNowClient
+from fastapi import FastAPI
 
+app = FastAPI()
 # Create MCP Server
 mcp = FastMCP("ServiceNow MCP")
 
@@ -111,7 +113,15 @@ async def health_check():
     }
 
 
+@app.get("/")
+async def root():
+    return {"status": "running"}
+
 if __name__ == "__main__":
-    #print("SERVER STARTED")
-    print("Starting ServiceNow MCP Server...")
-    mcp.run()
+    import uvicorn
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000
+    )
