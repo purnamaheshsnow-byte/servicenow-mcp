@@ -2,6 +2,9 @@ from mcp.server.fastmcp import FastMCP
 from sn_client import ServiceNowClient
 from fastapi import FastAPI
 
+app = FastAPI()
+# Create MCP Server
+mcp = FastMCP("ServiceNow MCP")
 # Initialize ServiceNow Client
 snow = ServiceNowClient()
 
@@ -96,9 +99,7 @@ async def get_change_requests():
         for change in changes
     ]
 
-app = FastAPI()
-# Create MCP Server
-mcp = FastMCP("ServiceNow MCP")
+
 mcp_app = mcp.streamable_http_app()
 
 app = FastAPI(
