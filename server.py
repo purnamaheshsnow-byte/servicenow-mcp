@@ -244,15 +244,15 @@ async def get_change_requests():
 # CREATE MCP HTTP APP
 # =========================
 
-mcp_app = mcp.http_app(path="/mcp")
+# create MCP app AFTER tools
+mcp_app = mcp.streamable_http_app()
 
 app = FastAPI(
     title="ServiceNow MCP",
-    lifespan=mcp_app.lifespan
+    lifespan=mcp_app.router.lifespan_context
 )
 
-app.mount("/", mcp_app)
-
+app.mount("/mcp", mcp_app)
 
 # =========================
 # NORMAL FASTAPI ROUTES
