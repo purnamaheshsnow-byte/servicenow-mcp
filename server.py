@@ -129,11 +129,18 @@ async def test_snow():
 async def root():
     return {"status": "server is running..."}
 
-if __name__ == "__main__":
-    import uvicorn
+# if __name__ == "__main__":
+#     import uvicorn
 
-    uvicorn.run(
-        app,
+#     uvicorn.run(
+#         app,
+#         host="0.0.0.0",
+#         port=8000
+#     )
+
+if __name__ == "__main__":
+    mcp.run(
+        transport="http",
         host="0.0.0.0",
         port=8000
     )
