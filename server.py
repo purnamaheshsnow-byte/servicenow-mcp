@@ -161,7 +161,8 @@ from fastapi import FastAPI
 
 # Create MCP server FIRST
 mcp = FastMCP("ServiceNow MCP")
-
+print("FASTMCP METHODS:")
+print(dir(mcp))
 # ServiceNow client
 snow = ServiceNowClient()
 
