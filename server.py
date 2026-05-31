@@ -101,7 +101,7 @@ async def get_change_requests():
     ]
 
 
-@mcp.tool()
+@app.get("/health")
 async def health_check():
     """
     Verify MCP Server is running.
@@ -112,10 +112,14 @@ async def health_check():
         "server": "ServiceNow MCP"
     }
 
+@app.get("/test-snow")
+async def test_snow():
+    incidents = await snow.get_incidents(1)
+    return incidents
 
 @app.get("/")
 async def root():
-    return {"status": "running"}
+    return {"status": "server is running..."}
 
 if __name__ == "__main__":
     import uvicorn
